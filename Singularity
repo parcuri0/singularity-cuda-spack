@@ -16,8 +16,7 @@
     rm -rf /var/lib/apt/lists/*
 
 %post
-    apt-get update -y
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    yum install -y \
         autoconf \
         build-essential \
         bzip2 \
@@ -36,7 +35,7 @@
         tcl \
         unzip \
         zlib1g
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/cache/yum/*
 
 %post
     cd /
