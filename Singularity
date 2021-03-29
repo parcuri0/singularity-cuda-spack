@@ -43,9 +43,4 @@ From: nvidia/cuda:10.2-devel-centos7
     export FORCE_UNSAFE_CONFIGURE=1
     export PATH=/opt/spack/bin:$PATH
 
-%post
-    cd /
-    spack install [u'gcc@8.3', u'cuda@10.2', u'openmpi%gcc8.3^cuda@10.2']
-    spack clean --all
-
 
