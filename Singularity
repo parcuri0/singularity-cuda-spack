@@ -1,34 +1,42 @@
-# Spack container (https://github.com/spack/spack)
-#    Set the user argument 'package' to specify the Spack package to
-#    install.  Otherwise, it will just build a base Spack container
-#    image.
-# 
-#    Sample workflow:
-# $ hpccm.py --recipe recipes/spack.py --userarg package="gromacs@2018.2 +cuda" > Dockerfile.gromacs.spack
-# $ docker build -t gromacs.spack -f Dockerfile.gromacs.spack .
-# $ nvidia-docker run --rm -ti gromacs.spack bash -l
-# container:/> spack load gromacs
-# 
-
-BootStrap: docker
-From: nvidia/cuda:10.2-devel-centos7
-%post
-    . /.singularity.d/env/10-docker*.sh
-
 # Python
 %post
-    yum install -y \
-        python2 \
+    apt-get update -y
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        python \
         python3
-    rm -rf /var/cache/yum/*
+    rm -rf /var/lib/apt/lists/*
 
 # GNU compiler
 %post
-    yum install -y \
+    apt-get update -y
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        g++ \
         gcc \
-        gcc-c++ \
-        gcc-gfortran
-    rm -rf /var/cache/yum/*
+        gfortran
+    rm -rf /var/lib/apt/lists/*
+
+%post
+    apt-get update -y
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+        autoconf \
+        build-essential \
+        bzip2 \
+        ca-certificates \
+        coreutils \
+        curl \
+        environment-modules \
+        git \
+        gzip \
+        libssl-dev \
+        make \
+        openssh-client \
+        patch \
+        pkg-config \
+        tar \
+        tcl \
+        unzip \
+        zlib1g
+    rm -rf /var/lib/apt/lists/*
 
 %post
     cd /
@@ -42,5 +50,10 @@ From: nvidia/cuda:10.2-devel-centos7
 %post
     export FORCE_UNSAFE_CONFIGURE=1
     export PATH=/opt/spack/bin:$PATH
+
+%post
+    cd /
+    spack install [u'gcc@8.3', u'cuda@10.2', u'openmpi%gcc8.3^cuda@10.2']
+    spack clean --all
 
 
