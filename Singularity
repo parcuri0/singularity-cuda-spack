@@ -1,19 +1,34 @@
+# Spack container (https://github.com/spack/spack)
+#    Set the user argument 'package' to specify the Spack package to
+#    install.  Otherwise, it will just build a base Spack container
+#    image.
+# 
+#    Sample workflow:
+# $ hpccm.py --recipe recipes/spack.py --userarg package="gromacs@2018.2 +cuda" > Dockerfile.gromacs.spack
+# $ docker build -t gromacs.spack -f Dockerfile.gromacs.spack .
+# $ nvidia-docker run --rm -ti gromacs.spack bash -l
+# container:/> spack load gromacs
+# 
+
+BootStrap: docker
+From: nvidia/cuda:10.2-devel-centos7
+%post
+    . /.singularity.d/env/10-docker*.sh
+
 # Python
 %post
-    apt-get update -y
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        python \
+    yum install -y \
+        python2 \
         python3
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/cache/yum/*
 
 # GNU compiler
 %post
-    apt-get update -y
-    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-        g++ \
+    yum install -y \
         gcc \
-        gfortran
-    rm -rf /var/lib/apt/lists/*
+        gcc-c++ \
+        gcc-gfortran
+    rm -rf /var/cache/yum/*
 
 %post
     yum install -y \
