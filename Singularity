@@ -24,18 +24,11 @@ From: nvidia/cuda:10.2-devel-centos7
 
 # GNU compiler
 %post
-    yum install -y centos-release-scl
     yum install -y \
-        devtoolset-8.3-gcc \
-        devtoolset-8.3-gcc-c++ \
-        devtoolset-8.3-gcc-gfortran
+        gcc \
+        gcc-c++ \
+        gcc-gfortran
     rm -rf /var/cache/yum/*
-%post
-    cd /
-    update-alternatives --install /usr/bin/g++ g++ /opt/rh/devtoolset-8.3/root/usr/bin/g++ 30
-    update-alternatives --install /usr/bin/gcc gcc /opt/rh/devtoolset-8.3/root/usr/bin/gcc 30
-    update-alternatives --install /usr/bin/gcov gcov /opt/rh/devtoolset-8.3/root/usr/bin/gcov 30
-    update-alternatives --install /usr/bin/gfortran gfortran /opt/rh/devtoolset-8.3/root/usr/bin/gfortran 30
 
 %post
     cd /
