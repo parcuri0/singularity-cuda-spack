@@ -14,7 +14,10 @@ BootStrap: docker
 From: nvidia/cuda:10.2-devel-centos7
 %post
     . /.singularity.d/env/10-docker*.sh
-
+    mkdir $SINGULARITY_ROOTFS/local_tmp
+    chmod 777 -R $SINGULARITY_ROOTFS/local_tmp
+    export TMPDIR=$SINGULARITY_ROOTFS/local_tmp
+    export TMP=$SINGULARITY_ROOTFS/local_tmp
 # Python
 %post
     yum install -y \
@@ -67,7 +70,10 @@ From: nvidia/cuda:10.2-devel-centos7
 
 %post
     cd /
-    spack install gcc@8.3 cuda@10.2 openmpi%gcc8.3^cuda@10.2
+    spack install gcc@8.3 
+    spack compiler find 
+    spack install cuda@10.2 %gcc8.3 
+    spack install openmpi%gcc8.3^cuda@10.2 +cuda
     spack clean --all
 
 
