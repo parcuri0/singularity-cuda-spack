@@ -67,7 +67,7 @@ From: nvidia/cuda:10.2-devel-centos7
 
 %post
     cd /
-    spack install gcc@8.3 cuda@10.2 openmpi%gcc8.3^cuda@10.2
-    spack clean --all
+    #spack install gcc@8.3 cuda@10.2 openmpi%gcc8.3^cuda@10.2
+    #spack clean --all
 
 
