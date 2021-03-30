@@ -14,7 +14,7 @@ BootStrap: docker
 From: nvidia/cuda:10.2-devel-centos7
 %post
     . /.singularity.d/env/10-docker*.sh
-    mkdir $SINGULARITY_ROOTFS/local_tmp
+    mkdir -p $SINGULARITY_ROOTFS/local_tmp
     chmod 777 -R $SINGULARITY_ROOTFS/local_tmp
     export TMPDIR=$SINGULARITY_ROOTFS/local_tmp
     export TMP=$SINGULARITY_ROOTFS/local_tmp
